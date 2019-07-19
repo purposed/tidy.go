@@ -1,3 +1,4 @@
 bin/*
 rules.md
 config.json
+.idea/*

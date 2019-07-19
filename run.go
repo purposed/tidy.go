@@ -10,7 +10,7 @@ import (
 	"github.com/purposed/good/serialization"
 	"github.com/sirupsen/logrus"
 
-	"github.com/dalloriam/fsclean/fsclean"
+	"github.com/purposed/fsclean/fsclean"
 )
 
 const (

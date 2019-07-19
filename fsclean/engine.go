@@ -3,6 +3,7 @@ package fsclean
 import (
 	"github.com/purposed/good/task"
 	"github.com/sirupsen/logrus"
+	"time"
 )
 
 // An Engine enforces all the monitors.
@@ -32,7 +33,9 @@ func (e *Engine) Start() {
 	log := logrus.New()
 	i := 0
 	for _, mon := range e.monitors {
-		e.tasks = append(e.tasks, task.New(task.Parameters{Name: mon.RootDirectory, Function: mon.Check, Logger: log}))
+		newTask := task.New(task.Parameters{Name: mon.RootDirectory, Function: mon.Check, Logger: log})
+		e.tasks = append(e.tasks, newTask)
+		newTask.Start(time.Duration(mon.CheckFrequencySeconds) * time.Second)
 		i++
 	}
 	e.log.Infof("started the watcher engine with %d monitors", i)

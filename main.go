@@ -3,11 +3,9 @@ package main
 import (
 	"flag"
 
-	"github.com/dalloriam/fsclean/version"
 	"github.com/genuinetools/pkg/cli"
+	"github.com/purposed/fsclean/version"
 )
-
-const configFile = "config.json"
 
 func main() {
 	p := cli.NewProgram()
