@@ -1,6 +1,6 @@
-package fsclean
+package tidy
 
-// Config aggregates fsclean configuration.
+// Config aggregates tidy configuration.
 type Config struct {
 	Monitors []MonitorDefinition `json:"monitors"`
 }

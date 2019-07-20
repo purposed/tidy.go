@@ -1,8 +1,8 @@
 # Makefile magic from Jessie Frazelle:
 # https://github.com/jessfraz
 
-NAME := fsclean
-PKG := github.com/dalloriam/$(NAME)
+NAME := tidy
+PKG := github.com/purposed/$(NAME)
 PREFIX ?=$(shell pwd)
 BUILDDIR := ${PREFIX}/bin
 
@@ -62,12 +62,6 @@ release: *.go VERSION.txt
 	$(foreach GOOSARCH,$(GOOSARCHES), \
 		$(call buildarch,$(subst /,,$(dir $(GOOSARCH))),$(notdir $(GOOSARCH)),.,$(NAME),.)\
 	)
-
-.PHONY: image
-image:
-	@echo "+ $@"
-	docker build --rm --force-rm -t dalloriam/$(NAME) .
-	docker tag dalloriam/$(NAME):latest dalloriam/$(NAME):$(VERSION)
 
 .PHONY: bump-version
 BUMP := patch

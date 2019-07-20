@@ -1,9 +1,10 @@
-package fsclean
+package tidy
 
 import (
+	"time"
+
 	"github.com/purposed/good/task"
 	"github.com/sirupsen/logrus"
-	"time"
 )
 
 // An Engine enforces all the monitors.

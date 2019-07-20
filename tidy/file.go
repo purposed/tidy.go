@@ -1,4 +1,4 @@
-package fsclean
+package tidy
 
 import "time"
 

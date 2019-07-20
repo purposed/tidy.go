@@ -6,17 +6,17 @@ import (
 	"io/ioutil"
 	"syscall"
 
+	"github.com/purposed/tidy/tidy"
+
 	"github.com/purposed/good/process"
 	"github.com/purposed/good/serialization"
 	"github.com/sirupsen/logrus"
-
-	"github.com/purposed/fsclean/fsclean"
 )
 
 const (
 	runCommandName = "run"
 	runCommandArgs = "[-cfg config.json]"
-	runCommandHelp = "Run the fsclean watcher"
+	runCommandHelp = "Run the tidy watcher"
 )
 
 type runCommand struct {
@@ -39,12 +39,12 @@ func (cmd *runCommand) Run(ctx context.Context, args []string) error {
 		return err
 	}
 
-	var cfg fsclean.Config
+	var cfg tidy.Config
 	if err := serialization.Unmarshal(raw, &cfg, serialization.JSON); err != nil {
 		return err
 	}
 
-	engine, err := fsclean.NewEngine(&cfg)
+	engine, err := tidy.NewEngine(&cfg)
 	if err != nil {
 		return err
 	}
