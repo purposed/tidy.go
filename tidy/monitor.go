@@ -6,9 +6,8 @@ import (
 	"os"
 	"path"
 	"path/filepath"
-	"strings"
-	"time"
 
+	"github.com/mitchellh/go-homedir"
 	"github.com/sirupsen/logrus"
 )
 
@@ -32,8 +31,13 @@ func NewMonitor(rootDir string, rules []*Rule, recursive bool, checkFrequencySec
 		return nil, errors.New("check frequency cannot be 0")
 	}
 
+	dir, err := homedir.Expand(rootDir)
+	if err != nil {
+		return nil, err
+	}
+
 	return &Monitor{
-		RootDirectory:         rootDir,
+		RootDirectory:         dir,
 		Rules:                 rules,
 		Recursive:             recursive,
 		CheckFrequencySeconds: checkFrequencySeconds,
@@ -42,12 +46,9 @@ func NewMonitor(rootDir string, rules []*Rule, recursive bool, checkFrequencySec
 }
 
 func (m *Monitor) apply(path string, info os.FileInfo) error {
-	f := File{
-		Path:        path,
-		IsDirectory: info.IsDir(),
-		Name:        strings.TrimSuffix(info.Name(), filepath.Ext(path)),
-		Extension:   strings.TrimPrefix(filepath.Ext(path), "."),
-		Age:         time.Since(info.ModTime()),
+	f, err := NewFile(path, info)
+	if err != nil {
+		return err
 	}
 
 	for _, rule := range m.Rules {
