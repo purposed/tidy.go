@@ -60,7 +60,7 @@ release: *.go VERSION.txt
 	@echo "+ $@"
 	$(GO) generate ./...
 	$(foreach GOOSARCH,$(GOOSARCHES), \
-		$(call buildarch,$(subst /,,$(dir $(GOOSARCH))),$(notdir $(GOOSARCH)),.,$(NAME),.)\
+		$(call buildarch,$(subst /,,$(dir $(GOOSARCH))),$(notdir $(GOOSARCH)),.,$(shell echo $(NAME)-$(GOOSARCH) | tr "/" -),.)\
 	)
 
 .PHONY: bump-version
