@@ -1,0 +1,54 @@
+name: Build & Functional Tests
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Go 1.12
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.12
+      id: go
+    - name: Check out code
+      uses: actions/checkout@v1
+    - name: Get dependencies
+      run: |
+        go get -v -t -d ./...
+    - name: Build
+      run: make build
+    - name: Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: tidy
+        path: bin/tidy
+  
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Set up Go 1.12
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.12
+        id: go
+      - name: Check out code
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/checkout@v1
+      - name: Get dependencies
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          go get -v -t -d ./...
+      - name: Cross-compile
+        if: startsWith(github.ref, 'refs/tags/')
+        run: make release
+      - name: Release
+        uses: docker://softprops/action-gh-release
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: bin/*/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
