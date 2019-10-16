@@ -21,7 +21,7 @@ type File struct {
 }
 
 // NewFile initializes and returns a new file.
-func NewFile(path string, info os.FileInfo) (File, error) {
+func NewFile(path string, info os.FileInfo) (*File, error) {
 	f := File{
 		Path:        path,
 		IsDirectory: info.IsDir(),
@@ -33,12 +33,12 @@ func NewFile(path string, info os.FileInfo) (File, error) {
 	if f.IsDirectory {
 		err := f.directorySize()
 		if err != nil {
-			return File{}, err
+			return nil, err
 		}
 	} else {
 		f.SizeBytes = info.Size()
 	}
-	return f, nil
+	return &f, nil
 }
 
 func (f *File) walkFn(path string, info os.FileInfo, err error) error {
