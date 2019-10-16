@@ -52,7 +52,7 @@ func (m *Monitor) apply(path string, info os.FileInfo) error {
 	}
 
 	for _, rule := range m.Rules {
-		if err := rule.Apply(&f); err != nil {
+		if err := rule.Apply(f); err != nil {
 			return err
 		}
 	}
