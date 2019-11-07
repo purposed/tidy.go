@@ -1,9 +1,16 @@
 # Tidy
 
+![](https://img.shields.io/github/v/release/purposed/tidy?style=flat-square) ![](https://img.shields.io/github/go-mod/go-version/purposed/tidy?style=flat-square) ![](https://img.shields.io/github/license/purposed/tidy?style=flat-square)
+
 Tidy is a configurable tool for automating boring and/or repetitive file managment tasks.
 
 ## Installation
-Tidy is simple to install:
+### With binman
+```bash
+$ binman install tidy
+```
+
+### With go get 
 ```bash
 $ go get -u github.com/purposed/tidy
 ```
